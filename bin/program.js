@@ -34,7 +34,13 @@ function handlerAction(argv, options) {
 	}
 }
 
-function startService(obj,filename,port) {
+function startService(obj,file,port) {
+	// watch change
+	fs.watch(file, (event,filename) => {
+		if(event === 'change') {
+			obj = JSON.parse(fs.readFileSync(file, 'utf-8'))
+		}
+	})
 	// router user 
 	Object.keys(obj).forEach(e => {
 		// main route
@@ -52,7 +58,7 @@ function startService(obj,filename,port) {
 			delete obj[e][index]
 			obj[e].filter(u => u !== null)
 			try {
-				fs.writeFileSync(filename, JSON.stringify(obj))
+				fs.writeFileSync(file, JSON.stringify(obj))
 				return true
 			} catch(e) {
 				return console.log(e)
@@ -60,12 +66,12 @@ function startService(obj,filename,port) {
 		})
 		// post data
 		app.post(`/${e}`, (req,res) => {
-			if(!obj[e].id) {
-				obj[e].id = obj[e].length + 1
+			if(!req.body.id) {
+				req.body.id = obj[e].length + 1
 			}
 			obj[e].push(req.body)
 			try {
-				fs.writeFileSync(filename, JSON.stringify(obj))
+				fs.writeFileSync(file, JSON.stringify(obj))
 				return true
 			} catch(e) {
 				return console.log(e)
