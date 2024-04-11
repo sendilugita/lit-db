@@ -1,2 +1,2 @@
 ### lit-db
-storage sederhana berasal dari file json yang diakses melalu server
+storage sederhana berasal dari file json yang bisa diakses melalui server
