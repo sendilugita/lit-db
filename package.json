@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "sendi lugita",
   "license": "ISC",
   "dependencies": {
     "commander": "^12.0.0",
